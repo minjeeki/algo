@@ -1,0 +1,23 @@
+'''
+1부터 N까지 자연수 중에서 중복 없이 M개를 고른 수열
+고른 수열은 오름차순이어야 한다.
+'''
+def ft_backtracking(start, depth):
+    global cur_lst
+    # 가지치기 조건
+    if depth == M:
+        print(*cur_lst)
+        return
+    for i in range(start + 1, N + 1):
+        if visited[i] == False:
+            visited[i] = True
+            cur_lst.append(i)
+            ft_backtracking(i, depth + 1)
+            visited[i] = False
+            cur_lst.pop()
+
+N, M = map(int, input().split())
+visited = [False] * (N + 1)
+visited[0] = True
+cur_lst = []
+ft_backtracking(0, 0)
