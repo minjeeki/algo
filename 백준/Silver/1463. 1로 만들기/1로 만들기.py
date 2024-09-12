@@ -1,27 +1,13 @@
-import sys
+n = int(input())
 
-def ft_dfs(x):
-    global cnt, min_cnt
-    if cnt > min_cnt:
-        return
-    if x == 1:
-        min_cnt = min(cnt, min_cnt)
-        return
-    if x % 3 == 0:
-        cnt += 1
-        ft_dfs(x // 3)
-        cnt -= 1
-    if x % 2 == 0:
-        cnt += 1
-        ft_dfs(x // 2)
-        cnt -= 1
-    cnt += 1
-    ft_dfs(x - 1)
-    cnt -= 1
-
-X = int(input())
-
-cnt = 0
-min_cnt = sys.maxsize
-ft_dfs(X)
-print(min_cnt)
+dp = [0] * (n + 1)
+for i in range(2, n + 1):
+    if i % 3 == 0 and i % 2 == 0:
+        dp[i] = min(dp[i - 1] + 1, dp[i // 2] + 1, dp[i // 3] + 1)
+    elif i % 3 == 0:
+        dp[i] = min(dp[i - 1] + 1, dp[i // 3] + 1)
+    elif i % 2 == 0:
+        dp[i] = min(dp[i - 1] + 1, dp[i // 2] + 1)
+    else:
+        dp[i] = dp[i - 1] + 1
+print(dp[n])
