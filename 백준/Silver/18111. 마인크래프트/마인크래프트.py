@@ -1,32 +1,35 @@
-N, M, B = map(int, input().split())     # N : 세로, M : 가로, B : 블록 개수
-place = []
+N, M, B = map(int, input().split())
+hi_dict = {}
+min_time = 256 * N * M
+height = 0
+
+min_hi = 256
+max_hi = 0
 sum_place = 0
 for _ in range(N):
-    cur_lst = list(map(int, input().split()))
-    place += cur_lst
-    sum_place += sum(cur_lst)
-min_time = 256 * N * M
-that_height = 0
-for hi in range(min(place), max(place) + 1):
-    # 인벤토리 포함 전체 블록 수가 hi로 평탄화 후 블록 수보다 작으면 고려 안함
-    if (hi * N * M) > (B + sum_place):
+    for hi in list(map(int, input().split())):
+        hi_dict.setdefault(hi, 0)
+        hi_dict[hi] += 1
+        if min_hi > hi:
+            min_hi = hi
+        if max_hi < hi:
+            max_hi = hi
+        sum_place += hi
+
+for tar_h in range(min_hi, max_hi + 1):
+    if (tar_h * N * M) > (B + sum_place):
         continue
     time = 0
-    for i in range(N * M):
-        # 블록이 목표 높이와 동일 : 다음 반복문 진행
-        if place[i] == hi:
+    for cur_h in hi_dict.keys():
+        if cur_h == tar_h:
             continue
-        # 블록 꺼내 인벤 넣기 : 2초 소요
-        elif place[i] > hi:
-            time += (place[i] - hi) * 2
-        # 인벤에서 블록 꺼내 쌓기 : 1초 소요
-        elif place[i] < hi:
-            time += (hi - place[i])
-    # 최소 시간 발견 : 시간 및 높이 갱신
+        elif cur_h > tar_h:
+            time += (cur_h - tar_h) * hi_dict[cur_h] * 2
+        elif cur_h < tar_h:
+            time += (tar_h - cur_h) * hi_dict[cur_h]
     if time < min_time:
         min_time = time
-        that_height = hi
-    # 최소 시간과 동일 상황 발생 : 최대 높이 갱신
-    elif time == min_time:
-        that_height = max(that_height, hi)
-print(min_time, that_height)
+        height = tar_h
+    if time == min_time:
+        height = max(height, tar_h)
+print(min_time, height)
