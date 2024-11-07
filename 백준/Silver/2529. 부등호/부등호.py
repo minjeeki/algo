@@ -8,6 +8,9 @@ def move_next(range_start, range_end, cur_idx):
             num_lst.pop()
 
 def dfs(cur_num, cur_idx):
+    if cur_num == -1:
+        move_next(0, 10, cur_idx)
+        return
     if cur_idx == k:
         answers.append(''.join(list(map(str, num_lst))))
         return
@@ -25,10 +28,5 @@ visited = [False] * 10
 answers = []
 num_lst = []
 
-for i in range(10):
-    visited[i] = True
-    num_lst.append(i)
-    dfs(i, 0)
-    num_lst.pop()
-    visited[i] = False
+dfs(-1, -1)
 print(answers[-1], answers[0], sep='\n')
