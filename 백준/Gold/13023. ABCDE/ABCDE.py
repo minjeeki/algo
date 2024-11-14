@@ -6,8 +6,6 @@ def dfs(cur_friend, connection):
     if connection == 5:
         is_in_line = 1
         return
-    elif connection > 5:
-        return
 
     if is_in_line == 0:
         deq = deque(near_lst[cur_friend])
