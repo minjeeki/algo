@@ -3,7 +3,6 @@ cards = set(map(int, input().split()))
 M = int(input())
 tests = list(map(int, input().split()))
 
-for idx in range(M):
-    tests[idx] = 1 if tests[idx] in cards else 0
+tests = [1 if num in cards else 0 for num in tests]
 
 print(*tests)
