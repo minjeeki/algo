@@ -1,11 +1,24 @@
+from collections import deque
+
 N = int(input())
-matrix = [list(map(int, input().split())) for _ in range(N)]
+graph = [list(map(int, input().split())) for _ in range(N)]
 
-for a in range(N):
-    for b in range(N):
-        for c in range(N):
-            if matrix[b][a] and matrix[a][c]:
-                matrix[b][c] = 1
+result = [[0] * N for _ in range(N)]
 
-for row in matrix:
+for start in range(N):
+    visited = [False] * N
+    queue = deque([start])
+
+    while queue:
+        cur = queue.popleft()
+        for next_node in range(N):
+            if graph[cur][next_node] == 1 and not visited[next_node]:
+                visited[next_node] = True
+                queue.append(next_node)
+
+    for i in range(N):
+        if visited[i]:
+            result[start][i] = 1
+
+for row in result:
     print(*row)
